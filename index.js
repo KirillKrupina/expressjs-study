@@ -1,4 +1,5 @@
 const express = require('express');
+const booksRouter = express.Router();
 
 const app = express();
 const products = ['Apple', 'Melon', 'Banana'];
@@ -8,9 +9,11 @@ app.get('/', (req, res, next) => {
 });
 
 app.get('/products', (req, res, next) => {
-    console.log('Page', req.query.page);       //localhost:5000/products?page=#
+    console.log('Page', req.query.page); //localhost:5000/products?page=#
 
-    res.json({products});
+    res.json({
+        products
+    });
 });
 
 app.get('/products/:id', (req, res, next) => {
@@ -19,6 +22,27 @@ app.get('/products/:id', (req, res, next) => {
     } else {
         res.status(404).send('Product not found');
     }
+});
+
+
+booksRouter.get('/', (req, res) => {
+    res.send('Books');
+});
+
+booksRouter.get('/about', (req, res) => {
+    res.send('About books');
+});
+
+app.use('/books', booksRouter);
+
+app.use('/user/:id', function (req, res, next) {
+    console.log('Middleware');
+    next();
+});
+
+app.get('/user/:id', function (req, res, next) {
+    console.log('/user/:id');
+    res.send('USER');
 });
 
 app.listen(5000, _ => {
