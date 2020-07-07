@@ -51,6 +51,13 @@ app.get('/blog', (req, res, next) => {
     res.redirect('https://www.youtube.com/');
 });
 
+app.get('/getDownloadBooks', (req, res, next) => {
+    res.download('./public/books.txt', 'anotherFileName', (err)=>{
+        console.log(`File sent!`);
+        
+    });
+});
+
 app.listen(5000, _ => {
     console.log(`Server is starting... ${new Date()}`);
 });
