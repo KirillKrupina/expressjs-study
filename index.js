@@ -36,13 +36,19 @@ booksRouter.get('/about', (req, res) => {
 app.use('/books', booksRouter);
 
 app.use('/user/:id', function (req, res, next) {
+    console.log(req.params.id);
     console.log('Middleware');
     next();
 });
 
 app.get('/user/:id', function (req, res, next) {
+    console.log(req.params.id);
     console.log('/user/:id');
     res.send('USER');
+});
+
+app.get('/blog', (req, res, next) => {
+    res.redirect('https://www.youtube.com/');
 });
 
 app.listen(5000, _ => {
