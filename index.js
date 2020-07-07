@@ -4,12 +4,19 @@ const booksRouter = express.Router();
 const app = express();
 const products = ['Apple', 'Melon', 'Banana'];
 
+app.use((req, res, next) => {
+    console.log(`Date: ${new Date()}. Method: ${req.method}. URL: ${req.originalUrl}. IP: ${req.ip}`);
+    next();
+});
+
+app.use('/static', express.static(__dirname + '/public'));
+
 app.get('/', (req, res, next) => {
     res.send(`It's working!`);
 });
 
 app.get('/products', (req, res, next) => {
-    console.log('Page', req.query.page); //localhost:5000/products?page=#
+    //console.log('Page', req.query.page); //localhost:5000/products?page=#
 
     res.json({
         products
@@ -56,6 +63,12 @@ app.get('/getDownloadBooks', (req, res, next) => {
         console.log(`File sent!`);
         
     });
+});
+
+app.use((err, req, res, next) =>{
+    console.log(err.stack);
+    res.status(500).send(err.stack);
+    
 });
 
 app.listen(5000, _ => {
